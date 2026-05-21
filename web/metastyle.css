@@ -40,11 +40,11 @@
 }
 
 .metastyle-picker .ms-grid {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-    grid-auto-rows: 1fr;
+    grid-auto-rows: 72px;
     gap: 4px;
     padding: 2px;
     background: #1d1d1d;
@@ -60,7 +60,6 @@
     border-radius: 3px;
     cursor: pointer;
     overflow: hidden;
-    aspect-ratio: 1 / 1;
 }
 
 .metastyle-picker .ms-card:hover {
@@ -92,6 +91,42 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.metastyle-picker .ms-pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0;
+}
+
+.metastyle-picker .ms-btn {
+    background: #2b2b2b;
+    border: 1px solid #444;
+    color: #ddd;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.metastyle-picker .ms-btn:hover:not(:disabled) {
+    background: #3a3a3a;
+    border-color: #5b9aff;
+}
+
+.metastyle-picker .ms-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.metastyle-picker .ms-page-info {
+    color: #999;
+    font-size: 11px;
+    min-width: 60px;
+    text-align: center;
 }
 
 .metastyle-picker .ms-preview {

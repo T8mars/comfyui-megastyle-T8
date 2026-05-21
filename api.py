@@ -102,6 +102,10 @@ async def r_search(request: web.Request):
         limit = max(1, min(int(request.query.get("limit", "120")), 500))
     except ValueError:
         limit = 120
+    try:
+        offset = max(0, int(request.query.get("offset", "0")))
+    except ValueError:
+        offset = 0
 
     idx = load_index()
     styles = idx["styles"]
@@ -138,7 +142,9 @@ async def r_search(request: web.Request):
     return web.json_response({
         "q": q, "cat": cat, "sub": sub,
         "total": len(ordered),
-        "items": ordered[:limit],
+        "offset": offset,
+        "limit": limit,
+        "items": ordered[offset:offset + limit],
     })
 
 

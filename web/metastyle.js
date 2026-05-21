@@ -41,12 +41,17 @@ async function fetchCatalog() {
     return _catalogCache;
 }
 
-async function fetchSearch(q, cat, sub, limit = 120) {
+const PAGE_SIZE = 120;
+let _currentPage = 0;
+let _currentTotal = 0;
+
+async function fetchSearch(q, cat, sub, limit = PAGE_SIZE, offset = 0) {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
     if (cat) params.set("cat", cat);
     if (sub) params.set("sub", sub);
     params.set("limit", String(limit));
+    params.set("offset", String(offset));
     const r = await fetch(`${API}/search?${params}`);
     return r.json();
 }
@@ -74,6 +79,11 @@ function buildPickerDOM(node) {
         </div>
         <div class="ms-stats"></div>
         <div class="ms-grid"></div>
+        <div class="ms-pagination">
+            <button class="ms-btn ms-prev" title="上一页">← 上一页</button>
+            <span class="ms-page-info">1 / 1</span>
+            <button class="ms-btn ms-next" title="下一页">下一页 →</button>
+        </div>
         <div class="ms-preview">
             <img class="ms-preview-img" alt="">
             <div class="ms-preview-info">
@@ -125,7 +135,17 @@ async function rebuildCategoryOptions(rootEl) {
 function renderGrid(rootEl, items, total, q) {
     const grid = rootEl.querySelector(".ms-grid");
     const stats = rootEl.querySelector(".ms-stats");
-    stats.textContent = `命中 ${total} 个风格${q ? `（关键字: ${q}）` : ""}，显示前 ${items.length}`;
+    const pageInfo = rootEl.querySelector(".ms-page-info");
+    const prevBtn = rootEl.querySelector(".ms-prev");
+    const nextBtn = rootEl.querySelector(".ms-next");
+    
+    _currentTotal = total;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    stats.textContent = `命中 ${total} 个风格${q ? `（关键字: ${q}）` : ""}`;
+    pageInfo.textContent = `${_currentPage + 1} / ${totalPages}`;
+    prevBtn.disabled = _currentPage === 0;
+    nextBtn.disabled = _currentPage >= totalPages - 1;
+    
     grid.innerHTML = "";
     const frag = document.createDocumentFragment();
     for (const it of items) {
@@ -222,22 +242,32 @@ app.registerExtension({
             const catSel = dom.querySelector(".ms-cat");
             const subSel = dom.querySelector(".ms-sub");
 
-            const doSearch = async () => {
+            const doSearch = async (page = 0) => {
                 const q = qInput.value.trim();
                 const cat = catSel.value;
                 const sub = subSel.value;
-                const data = await fetchSearch(q, cat, sub, 120);
+                const offset = page * PAGE_SIZE;
+                _currentPage = page;
+                const data = await fetchSearch(q, cat, sub, PAGE_SIZE, offset);
                 renderGrid(dom, data.items || [], data.total || 0, q);
                 if (restoreKey) setSelected(dom, restoreKey);
             };
 
             const debounced = debounce(doSearch, 220);
-            qInput.addEventListener("input", debounced);
+            qInput.addEventListener("input", () => { _currentPage = 0; debounced(0); });
             qInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter") { e.preventDefault(); doSearch(); }
+                if (e.key === "Enter") { e.preventDefault(); _currentPage = 0; doSearch(0); }
             });
-            catSel.addEventListener("change", () => doSearch());
-            subSel.addEventListener("change", () => doSearch());
+            catSel.addEventListener("change", () => { _currentPage = 0; doSearch(0); });
+            subSel.addEventListener("change", () => { _currentPage = 0; doSearch(0); });
+
+            dom.querySelector(".ms-prev").addEventListener("click", () => {
+                if (_currentPage > 0) doSearch(_currentPage - 1);
+            });
+            dom.querySelector(".ms-next").addEventListener("click", () => {
+                const totalPages = Math.ceil(_currentTotal / PAGE_SIZE);
+                if (_currentPage < totalPages - 1) doSearch(_currentPage + 1);
+            });
 
             dom.querySelector(".ms-grid").addEventListener("click", (e) => {
                 const card = e.target.closest(".ms-card");

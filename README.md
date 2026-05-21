@@ -2,7 +2,7 @@
 
 > **MetaStyle T8 风格选择器** —— 把上万种艺术风格的代表图、示例提示词全部装进 ComfyUI 节点，支持中英拼音模糊搜索 + 实时大图预览。
 
-![version](https://img.shields.io/badge/version-1.0.0-blue) ![ComfyUI](https://img.shields.io/badge/ComfyUI-custom--node-orange) ![python](https://img.shields.io/badge/python-3.10%2B-green) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
+![version](https://img.shields.io/badge/version-1.1.0-blue) ![ComfyUI](https://img.shields.io/badge/ComfyUI-custom--node-orange) ![python](https://img.shields.io/badge/python-3.10%2B-green) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
 
@@ -14,6 +14,23 @@
 - 🖼️ **实时大图预览**：节点内嵌缩略图墙 + 高清预览，**不需要运行工作流**就能看到风格效果
 - 📤 **多端口输出**：图像 / 风格名 / 大类 / 示例提示词 / 原始 ID / 完整元数据 JSON
 - ⚡ **零卡顿**：256px WebP 缩略图懒加载，倒排索引秒级搜索
+- 📄 **分页浏览**：每页 120 张缩略图，支持上一页/下一页翻页，10000 张风格轻松浏览
+
+---
+
+## 🗺️ 更新日志
+
+### v1.1.0（2026-05-21）
+- ✅ **修复缩略图显示问题**：修复网格高度计算错误导致图片不显示的 bug
+- ✅ **新增翻页功能**：支持上一页/下一页翻页浏览，每页显示 120 张缩略图
+- ✅ **优化网格布局**：固定行高 72px，确保所有缩略图以正方形正确显示
+- ✅ **API 支持分页**：`/metastyle/search` 新增 `offset` 参数支持
+
+### v1.0.0（2026-05-21）
+- 🎉 **首版发布**：30 大类 + 模糊搜索 + 实时预览
+-  内置 10,000 张风格原图 + 10,000 张缩略图
+- ️ 30 个大类自动归类（数字艺术、插画、二次元、赛博朋克等）
+- 🔎 支持中文 / 英文 / 拼音模糊搜索
 
 ---
 

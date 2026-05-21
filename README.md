@@ -42,11 +42,7 @@
 
 ## 🚀 安装
 
-### 方法 1：ComfyUI Manager（推荐）
-
-未来发布到 Registry 后可一键安装。
-
-### 方法 2：手动安装
+### 方法 1：git clone（推荐）
 
 ```bash
 cd ComfyUI/custom_nodes
@@ -55,17 +51,25 @@ cd comfyui-metastyle-T8
 pip install -r requirements.txt
 ```
 
-依赖：`Pillow`、`pypinyin`、`pyarrow`（仅构建数据时需要）
+数据已包含在仓库中，无需额外下载或构建。
+
+### 方法 2：ComfyUI Manager
+
+未来发布到 Registry 后可一键安装。
 
 ---
 
-## 📦 数据集准备
+##  数据集
 
-由于代表图与索引文件总体积超过 1 GB，**仓库不包含 `data/` 目录下的图片与 JSON**。请二选一获取：
+> **v1.0.0 起，数据已内置在仓库中，无需手动构建。**
+>
+> 仓库包含 10,000 张风格原图 + 10,000 张缩略图 + 元数据索引，总计 ~410 MB。
+>
+> `git clone` 后开箱即用。
 
-### 选项 A：使用源 Parquet 一键构建（推荐）
+### 如需重新生成数据（开发者）
 
-> 适合你已经持有 `train-00000.parquet` 风格数据集的情况。
+适合你已经持有 `train-00000.parquet` 源数据集，想自行构建或更新风格库的情况：
 
 ```bash
 cd custom_nodes/comfyui-metastyle-T8
@@ -96,10 +100,6 @@ data/
 ├── styles_lite.json       前端轻量列表
 └── search_index.json      倒排索引 (6000+ tokens)
 ```
-
-### 选项 B：从 Release 下载已构建好的数据包
-
-> 我们在 [Releases](https://github.com/T8mars/comfyui-metastyle-T8/releases) 提供 `data.zip` 直接解压到节点根目录即可。
 
 ---
 

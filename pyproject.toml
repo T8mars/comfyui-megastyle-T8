@@ -1,0 +1,19 @@
+[project]
+name = "comfyui-metastyle-T8"
+description = "MetaStyle T8 风格选择器：从训练数据集中按风格挑选代表图与示例提示词，支持模糊搜索/中英拼音/实时大图预览。"
+version = "1.0.0"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "pyarrow>=14",
+    "Pillow>=10",
+    "pypinyin>=0.50",
+]
+
+[project.urls]
+Repository = "https://github.com/T8mars/comfyui-metastyle-T8"
+
+[tool.comfy]
+PublisherId = "T8mars"
+DisplayName = "MetaStyle T8 风格选择器"
+Icon = ""

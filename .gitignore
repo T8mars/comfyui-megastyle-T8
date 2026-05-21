@@ -17,13 +17,13 @@ venv/
 Thumbs.db
 desktop.ini
 
-# 大数据集（不入库，用户按 README 自行构建）
-data/styles/
-data/thumbs/
-data/styles_meta.json
-data/styles_lite.json
-data/search_index.json
-data/catalog.json
+# 大数据集（已在 v1.0.0 推送，保留默认入库）
+# data/styles/
+# data/thumbs/
+# data/styles_meta.json
+# data/styles_lite.json
+# data/search_index.json
+# data/catalog.json
 
 # 临时文件
 *.log
